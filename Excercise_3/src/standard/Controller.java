@@ -12,8 +12,14 @@ public class Controller {
         connect(ctr);
         conn = ctr.getConnection();
 
-        //Weiterer Programmablauf, bei erfolgreicher Connection
-        
+        if(conn != null)
+        {
+        	PersistenceManager pm = PersistenceManager.getInstance();
+        }     
+        else
+        {
+        	System.exit(0);
+        }
     }
 
     public static void connect(Connector ctr) {

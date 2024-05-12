@@ -12,11 +12,6 @@ public class Connector {
 	private static String password = "PcPRK4Oz";
 	public Connection con;
 	
-	public Connector()
-	{
-		
-	}
-	
 	public void connect() {
 		
 		try {
@@ -25,7 +20,6 @@ public class Connector {
 		} 
 		catch (SQLException e) {
 			System.out.println("Unsuccessfull Connection, program terminates!");
-			System.exit(0);
 		}
 		
 	}
