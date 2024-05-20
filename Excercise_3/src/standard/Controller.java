@@ -14,13 +14,17 @@ public class Controller {
 
         if(conn != null)
         {
-        	PersistenceManager pm = PersistenceManager.getInstance();
+        	PersistenceManager pManager = PersistenceManager.getInstance();
+        	RecoveryManager rManager = new RecoveryManager();
+        	
+        	rManager.recBuffer();
         }     
         else
         {
         	System.exit(0);
         }
-    }
+        
+}
 
     public static void connect(Connector ctr) {
         ctr.connect();

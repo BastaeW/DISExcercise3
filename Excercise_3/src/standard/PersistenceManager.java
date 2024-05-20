@@ -1,6 +1,7 @@
 package standard;
 
 import java.io.*;
+import java.util.stream.Collectors;
 
 public class PersistenceManager 
 {
@@ -33,12 +34,15 @@ public class PersistenceManager
 	
 	private void setup() throws IOException
 	{
-		fileReader = new FileReader("Filetest.txt");
+		fileReader = new FileReader("C:\\Users\\sebas\\git\\repository\\Excercise_3\\src\\standard\\filetest.txt");
 		bufferedReader = new BufferedReader(fileReader);
 		
-		while(bufferedReader.readLine() != null)
-		{
-			System.out.println(bufferedReader.readLine());
+		String line = bufferedReader.readLine();
+
+		while (line != null) {
+			System.out.println(line);
+			// read next line
+			line = bufferedReader.readLine();
 		}
 	}
 }
