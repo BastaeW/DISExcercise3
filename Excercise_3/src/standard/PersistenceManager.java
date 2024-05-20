@@ -34,7 +34,8 @@ public class PersistenceManager
 	
 	private void setup() throws IOException
 	{
-		fileReader = new FileReader("C:\\Users\\sebas\\git\\repository\\Excercise_3\\src\\standard\\filetest.txt");
+		//Ausgeklammert für Implementation des Clients (muss danach noch auf den "richtigen" Pfad zeigen
+		/*fileReader = new FileReader("C:\\Users\\sebas\\git\\repository\\Excercise_3\\src\\standard\\filetest.txt");
 		bufferedReader = new BufferedReader(fileReader);
 		
 		String line = bufferedReader.readLine();
@@ -43,6 +44,6 @@ public class PersistenceManager
 			System.out.println(line);
 			// read next line
 			line = bufferedReader.readLine();
-		}
+		}*/
 	}
 }
