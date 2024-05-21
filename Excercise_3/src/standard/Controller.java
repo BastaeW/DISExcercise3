@@ -20,7 +20,7 @@ public class Controller {
         	PersistenceManager pManager = PersistenceManager.getInstance();
         	RecoveryManager rManager = new RecoveryManager();
         	
-        	rManager.recBuffer();
+        	//rManager.recBuffer();
         	
         	int clientNumber = 5;
         	ExecutorService executor = Executors.newFixedThreadPool(clientNumber);
