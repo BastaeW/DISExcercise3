@@ -41,7 +41,7 @@ public class PersistenceManager
 	}
 	
 	//Rückgabemethode für die Instanz
-	public static synchronized PersistenceManager getInstance()
+	public static synchronized PersistenceManager getInstance() //Methode stellt sicher, dass nur eine Instanz des PM existiert und gibt die zurück, falls schon existiert
 	{
 		if(instance == null)
 		{
