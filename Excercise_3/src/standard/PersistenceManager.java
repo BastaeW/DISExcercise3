@@ -58,36 +58,59 @@ public class PersistenceManager
 		
 	}
 	
+	/* deine Methode
 	//Methode zum Committen einer Transaction
 	public synchronized void write(int taid, int pageid, String data) {
 		String pageData = String.format("%d,%d%s",  transactionCounter, pageid, data); //Formatierung der Page-Daten
-		buffer.put(pageid,  pageData)//Hinzufügen der Daten zum Puffer
+		buffer.put(pageid,  pageData);//Hinzufügen der Daten zum Puffer
 		log.add(pageData); // Hinzufügen der Daten zum Log
 		if (buffer.size() < 5) { //Überprüfe, ob der Puffer größer als 5 Einträge ist
+			flushBuffer(); // wenn ja, dann Daten aus dem Buffer in persistenten Speicher schreiben
+			
+		}
+	}*/
+	
+	//Meine Methode
+	public synchronized void write(int pageid, String data) {
+		String pageData = String.format("%d,%d%s",  transactionCounter, pageid, data); //Formatierung der Page-Daten
+		buffer.put(pageid,  pageData);//Hinzufügen der Daten zum Puffer
+		log.add(pageData); // Hinzufügen der Daten zum Log
+		if (buffer.size() < 5) { //Überprüfe, ob der Puffer größer als 5 Einträge ist
+			//System.out.print(buffer);
 			flushBuffer(); // wenn ja, dann Daten aus dem Buffer in persistenten Speicher schreiben
 			
 		}
 	}
 	
 	//Methode zum Leeren des Buffers
-	private vooid flushBuffer() {
+	private void flushBuffer() {
 		for (Map.Entry<Integer, String> entry : buffer.entrySet()) {
+		  try
+		  {
 			int pageid = entry.getKey();
 			String data = entry.getValue();
 			writeToFile(pageid, data); // Schreiben der Daten in eine Datei
-		} catch(I0Exception e) {
+		  }
+		  catch(Exception e) {
 			e.printStackTrace();
+		   }
 		}
 	}
 	
+	//Muss noch implementiert werden
+	private void writeToFile(int pageid, String data) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//Methode zum Speichern des Logs
 	public void saveLog() {
-		try (BufferedWriter write = new BufferedWriter(newFil eWriter("log.txt"))) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt"))) {
 			for (String entry : log) {
 				writer.write(entry); //Schreiben des Log-Eintrags in die Datei
 				writer.newLine(); //Neue Zeile für den nächsten Eintrag
 			}
-		} catch (I0Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

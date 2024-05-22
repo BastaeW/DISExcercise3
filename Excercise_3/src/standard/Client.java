@@ -24,6 +24,7 @@ public class Client {
 		Random rand = new Random();
 		for(int i = 0; i<5; i++)
 		{
+			
 			int randTable = rand.nextInt(2) + 1;
 			int randRow = rand.nextInt(10) + 1;
 			int randValue = rand.nextInt(1000);
@@ -31,6 +32,8 @@ public class Client {
 			String SQL = "UPDATE vsisp68.\"ex4table" + randTable + "\" SET" + " \"counter\" = '" + randValue + "' WHERE \"row\" = " + randRow;
 			
 			try {
+				conn.setAutoCommit(false);
+				pManager.write(clientID, SQL);
 				Statement stmt = conn.createStatement();
 	            stmt.execute(SQL);
 			}
