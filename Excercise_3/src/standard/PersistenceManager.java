@@ -52,7 +52,7 @@ public class PersistenceManager
 		
 	}
 	
-	//Methode zum Starten einer neuen Transaktion
+	//Methode zum Starten einer neuen Transaktio
 	public synchronized int beginTransaction() {
 		return ++transactionCounter; // erhöht TransactionCounter und gibt eine neue Transaction-ID zurück
 		
