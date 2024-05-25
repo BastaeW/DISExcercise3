@@ -1,15 +1,14 @@
 package standard;
 
-import java.io.*;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.Map;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Hashtable;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
 
 public class PersistenceManager 
 {
@@ -20,23 +19,21 @@ public class PersistenceManager
 	//Zähler für Transaktionen
 	private int transactionCounter;
 	//Liste für das Logging von Transactions
-	private List<String> log;
-	//private FileReader fileReader;
-	//private BufferedReader bufferedReader;
+	//private List<String> log;
+
 	
 	private PersistenceManager() { 
 	//privater Konstruktor, um die initalisierung außerhalb der Klasse zu vermeiden
-	/*Habe die Initialisierungslogik entfernt und rufe hier stattdessen die setup() Methode auf --> Konstruktor wird schlanker.
-	Die Initialisierung des PersistenceManager-Objekts wird in die setup()-Methode ausgelagert, die im Falle eines Fehlers eine IOException auslöst
-	{
-		/*try {
-			setup();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+
 		buffer = new Hashtable<>();
 		transactionCounter = 0;
-		log = new ArrayList<>();
+		//log = new ArrayList<>();
+		try {
+			FileUtils.cleanDirectory(new File("src/files/"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
 	}
 	
@@ -49,84 +46,77 @@ public class PersistenceManager
 		}
 		//Gibt null oder den PersistenceManager (Instanz) zurück
 		return instance;
+	}
+
+	public void addToBuffer(int pageId, String data, Connection c) {
+		String pageData = transactionCounter + ", "  + pageId + "; " + data;
+		buffer.put(pageId, pageData);
+		transactionCounter = transactionCounter + 1;
+		
+		if(buffer.size() >= 5)
+		{
+			persistBuffer();
+			
+			try {
+				c.commit();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			buffer = new Hashtable<>();
+		}
 		
 	}
 	
-	//Methode zum Starten einer neuen Transaktio
-	public synchronized int beginTransaction() {
-		return ++transactionCounter; // erhöht TransactionCounter und gibt eine neue Transaction-ID zurück
-		
-	}
-	
-	/* deine Methode
-	//Methode zum Committen einer Transaction
-	public synchronized void write(int taid, int pageid, String data) {
-		String pageData = String.format("%d,%d%s",  transactionCounter, pageid, data); //Formatierung der Page-Daten
-		buffer.put(pageid,  pageData);//Hinzufügen der Daten zum Puffer
-		log.add(pageData); // Hinzufügen der Daten zum Log
-		if (buffer.size() < 5) { //Überprüfe, ob der Puffer größer als 5 Einträge ist
-			flushBuffer(); // wenn ja, dann Daten aus dem Buffer in persistenten Speicher schreiben
+	private void persistBuffer()
+	{
+		try {
+			
+			
+			for (Map.Entry<Integer, String> entry : buffer.entrySet()) {
+				  try
+				  {
+					String data = entry.getValue();
+					int Filenumber = Character.getNumericValue(data.charAt(data.indexOf(";") - 1));
+					
+					File file = new File("src/files/Client" + Filenumber + ".txt");
+					BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+					
+					System.out.println(data);
+					
+					writer.write(data); // Schreiben der Daten in eine Datei
+					writer.newLine();
+					writer.close();
+				  }
+				  catch(Exception e) {
+					e.printStackTrace();
+				   }
+				}
 			
 		}
-	}*/
-	
-	//Meine Methode
-	public synchronized void write(int pageid, String data) {
-		String pageData = String.format("%d,%d%s",  transactionCounter, pageid, data); //Formatierung der Page-Daten
-		buffer.put(pageid,  pageData);//Hinzufügen der Daten zum Puffer
-		log.add(pageData); // Hinzufügen der Daten zum Log
-		if (buffer.size() < 5) { //Überprüfe, ob der Puffer größer als 5 Einträge ist
-			//System.out.print(buffer);
-			flushBuffer(); // wenn ja, dann Daten aus dem Buffer in persistenten Speicher schreiben
-			
+		catch(Exception e)
+		{
+			System.out.print(e);
 		}
 	}
+
 	
-	//Methode zum Leeren des Buffers
-	private void flushBuffer() {
-		for (Map.Entry<Integer, String> entry : buffer.entrySet()) {
-		  try
-		  {
-			int pageid = entry.getKey();
-			String data = entry.getValue();
-			writeToFile(pageid, data); // Schreiben der Daten in eine Datei
-		  }
-		  catch(Exception e) {
-			e.printStackTrace();
-		   }
-		}
-	}
 	
-	//Muss noch implementiert werden
-	private void writeToFile(int pageid, String data) {
-		// TODO Auto-generated method stub
-		
-	}
+
+/*
 
 	//Methode zum Speichern des Logs
 	public void saveLog() {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt"))) {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/Test.txt"));
 			for (String entry : log) {
 				writer.write(entry); //Schreiben des Log-Eintrags in die Datei
 				writer.newLine(); //Neue Zeile für den nächsten Eintrag
 			}
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-	
-	/*private void setup() throws IOException
-	{
-		//Ausgeklammert für Implementation des Clients (muss danach noch auf den "richtigen" Pfad zeigen
-		/*fileReader = new FileReader("C:\\Users\\sebas\\git\\repository\\Excercise_3\\src\\standard\\filetest.txt");
-		bufferedReader = new BufferedReader(fileReader);
-		
-		String line = bufferedReader.readLine();
-
-		while (line != null) {
-			System.out.println(line);
-			// read next line
-			line = bufferedReader.readLine();
 		}
 	}*/
 }

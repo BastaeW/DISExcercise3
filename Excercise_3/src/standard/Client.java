@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Random;
 
+
 public class Client {
 	
 	private int clientID;
@@ -22,34 +23,36 @@ public class Client {
 	public void run()
 	{
 		Random rand = new Random();
+		try {
+			Thread.sleep(rand.nextInt(500));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		for(int i = 0; i<5; i++)
 		{
 			
 			int randTable = rand.nextInt(2) + 1;
 			int randRow = rand.nextInt(10) + 1;
 			int randValue = rand.nextInt(1000);
-			int randSleep = (rand.nextInt(5)*1000) + 1000;
+			//int randSleep = rand.nextInt(500) + (1*clientID);
+			int randSleep = 1 + (1000*clientID);
 			String SQL = "UPDATE vsisp68.\"ex4table" + randTable + "\" SET" + " \"counter\" = '" + randValue + "' WHERE \"row\" = " + randRow;
 			
 			try {
 				conn.setAutoCommit(false);
-				pManager.write(clientID, SQL);
+				pManager.addToBuffer(clientID, SQL, conn);
 				Statement stmt = conn.createStatement();
 	            stmt.execute(SQL);
+	            Thread.sleep(randSleep);
 			}
 			catch(Exception e)
 			{
 				System.out.println("war nicht ausführbar!");
 			}
 			
-			System.out.println(SQL);
-			
-			try {
-				Thread.sleep(randSleep);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
+		
 	}
 	
 	public int getClientID() {
