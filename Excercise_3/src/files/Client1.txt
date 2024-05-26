@@ -1,3 +1,5 @@
-3, 1; UPDATE vsisp68."ex4table2" SET "counter" = '130' WHERE "row" = 2
-3, 1; UPDATE vsisp68."ex4table2" SET "counter" = '130' WHERE "row" = 2
-13, 1; UPDATE vsisp68."ex4table1" SET "counter" = '598' WHERE "row" = 9
+0, 1; UPDATE vsisp68."ex4table2" SET "counter" = '164' WHERE "row" = 1
+9, 1; UPDATE vsisp68."ex4table1" SET "counter" = '44' WHERE "row" = 7
+12, 1; UPDATE vsisp68."ex4table2" SET "counter" = '17' WHERE "row" = 3
+11, 1; UPDATE vsisp68."ex4table1" SET "counter" = '892' WHERE "row" = 3
+15, 1; UPDATE vsisp68."ex4table1" SET "counter" = '976' WHERE "row" = 4

@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.commons.io.FileUtils;
 
 public class PersistenceManager 
@@ -16,22 +18,20 @@ public class PersistenceManager
 	private static PersistenceManager instance = null;
 	//Puffer für zwischengespeicherte Daten
 	private Hashtable<Integer, String> buffer;
-	//Zähler für Transaktionen
-	private int transactionCounter;
 	//Liste für das Logging von Transactions
 	//private List<String> log;
-
+	private AtomicInteger transactionCounter;
 	
 	private PersistenceManager() { 
 	//privater Konstruktor, um die initalisierung außerhalb der Klasse zu vermeiden
 
 		buffer = new Hashtable<>();
-		transactionCounter = 0;
+		transactionCounter = new AtomicInteger(0);
 		//log = new ArrayList<>();
 		try {
 			FileUtils.cleanDirectory(new File("src/files/"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 		
@@ -49,10 +49,11 @@ public class PersistenceManager
 	}
 
 	public void addToBuffer(int pageId, String data, Connection c) {
-		String pageData = transactionCounter + ", "  + pageId + "; " + data;
-		buffer.put(pageId, pageData);
-		transactionCounter = transactionCounter + 1;
 		
+		String pageData = transactionCounter.get() + ", "  + pageId + "; " + data;
+		buffer.put(transactionCounter.get(), pageData);
+
+		transactionCounter.getAndIncrement();
 		if(buffer.size() >= 5)
 		{
 			persistBuffer();
@@ -60,7 +61,7 @@ public class PersistenceManager
 			try {
 				c.commit();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			
@@ -85,7 +86,7 @@ public class PersistenceManager
 					
 					System.out.println(data);
 					
-					writer.write(data); // Schreiben der Daten in eine Datei
+					writer.write(data); 
 					writer.newLine();
 					writer.close();
 				  }
