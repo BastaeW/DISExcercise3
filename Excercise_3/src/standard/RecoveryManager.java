@@ -45,18 +45,22 @@ public class RecoveryManager {
         }
     }
 	
-	private void commitTransactions() {
+ // Commit transactions by redoing the write operations of winner transactions
+    private void commitTransactions() {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 		
-		try {
-			connection.setAutoCommit(false);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		for(String line : sortedTransactions)
-		{
-			try
-			{
+		for (String line : sortedTransactions) {
+            try {
+                String[] parts = line.split(", ");
+                int transactionId = Integer.parseInt(parts[1]);
+
+                // Only redo operations for winner transactions
+                if (winnerTransactions.contains(transactionId)) {
+			
 				String SQL = line.substring(line.indexOf(";") + 2, line.length());
 				Statement stmt = connection.createStatement();
 	            stmt.execute(SQL);
@@ -65,6 +69,7 @@ public class RecoveryManager {
 			{
 				System.out.println(e);
 			}
+		}
 		}
 		
 		try {
@@ -75,7 +80,7 @@ public class RecoveryManager {
 		}
 		
 	}
-
+// sort transactions to ensure they are executed in the correct order
 	private void sortTransactions() {
 		
 		String SQL = "";
@@ -97,6 +102,7 @@ public class RecoveryManager {
         }
 	}
 
+	// Read log files to gather transaction data
 	private void readIn()
 	{
 		File[] files = directory.listFiles();
