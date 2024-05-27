@@ -15,6 +15,7 @@ public class RecoveryManager {
 
 	private List<String> transactions;
 	private List<String> sortedTransactions;
+	private Set<Integer> winnerTransactions; // Set of winner transaction IDs
 	private File directory;
 	private Connection connection;
 	
@@ -22,14 +23,27 @@ public class RecoveryManager {
 		directory = new File("src/files");
 		transactions = new ArrayList();
 		sortedTransactions = new ArrayList();
+		winnerTransactions = new HashSet<>(); // Initialize the winner transactions set
 		connection = c;
 	}
 
 	public void recover() {
 		readIn();
+		identifyWinnerTransactions(); // Identify winner transactions from logs
 		sortTransactions();
 		commitTransactions();
 	}
+	
+	 // Identify winner transactions by parsing the log files
+    private void identifyWinnerTransactions() {
+        for (String line : transactions) {
+            if (line.contains("EOT")) {
+                String[] parts = line.split(", ");
+                int transactionId = Integer.parseInt(parts[1]);
+                winnerTransactions.add(transactionId);
+            }
+        }
+    }
 	
 	private void commitTransactions() {
 		

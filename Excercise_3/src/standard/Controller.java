@@ -62,4 +62,9 @@ public class Controller {
     public Connector getConnector() {
         return ctr;
     }
+    // Neue Methode für winning Transaction
+    public static Set<Integer> findWinningTransactions() {
+        Client dummyClient = new Client(0, PersistenceManager.getInstance(), conn);
+        return dummyClient.findWinningTransactions();
+    }
 }
