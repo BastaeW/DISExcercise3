@@ -1,13 +1,21 @@
-9, 0; <EOT>* 4
-8, 0; UPDATE vsisp68."ex4table2" SET "counter" = '27' WHERE "row" = 2* 4
-7, 0; UPDATE vsisp68."ex4table1" SET "counter" = '89' WHERE "row" = 9* 4
-6, 0; <BOT>* 4
-10, 0; <BOT>* 5
-14, 0; UPDATE vsisp68."ex4table1" SET "counter" = '33' WHERE "row" = 5* 5
-11, 0; UPDATE vsisp68."ex4table2" SET "counter" = '171' WHERE "row" = 6* 5
-19, 0; UPDATE vsisp68."ex4table1" SET "counter" = '518' WHERE "row" = 9* 7
-18, 0; UPDATE vsisp68."ex4table2" SET "counter" = '782' WHERE "row" = 7* 7
-17, 0; <BOT>* 7
-16, 0; <EOT>* 5
-15, 0; UPDATE vsisp68."ex4table2" SET "counter" = '195' WHERE "row" = 4* 5
-20, 0; <EOT>* 7
+10, 0; UPDATE vsisp68."ex4table1" SET "counter" = '841' WHERE "row" = 10* 5
+9, 0; UPDATE vsisp68."ex4table1" SET "counter" = '167' WHERE "row" = 6* 5
+8, 0; <BOT>* 5
+15, 0; UPDATE vsisp68."ex4table1" SET "counter" = '153' WHERE "row" = 2* 6
+14, 0; UPDATE vsisp68."ex4table2" SET "counter" = '917' WHERE "row" = 5* 6
+13, 0; <BOT>* 6
+12, 0; <EOT>* 5
+11, 0; UPDATE vsisp68."ex4table2" SET "counter" = '441' WHERE "row" = 4* 5
+20, 0; UPDATE vsisp68."ex4table2" SET "counter" = '694' WHERE "row" = 1* 7
+19, 0; UPDATE vsisp68."ex4table1" SET "counter" = '317' WHERE "row" = 8* 7
+18, 0; <BOT>* 7
+17, 0; <EOT>* 6
+16, 0; UPDATE vsisp68."ex4table2" SET "counter" = '906' WHERE "row" = 8* 6
+21, 0; <EOT>* 7
+25, 0; UPDATE vsisp68."ex4table2" SET "counter" = '126' WHERE "row" = 1* 8
+24, 0; UPDATE vsisp68."ex4table2" SET "counter" = '363' WHERE "row" = 10* 8
+23, 0; UPDATE vsisp68."ex4table2" SET "counter" = '560' WHERE "row" = 3* 8
+22, 0; <BOT>* 8
+29, 0; <EOT>* 8
+27, 0; UPDATE vsisp68."ex4table2" SET "counter" = '518' WHERE "row" = 2* 8
+26, 0; UPDATE vsisp68."ex4table1" SET "counter" = '18' WHERE "row" = 10* 8
