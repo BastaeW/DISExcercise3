@@ -20,12 +20,14 @@ public class PersistenceManager
 	private Hashtable<Integer, String> buffer;
 	//Liste für das Logging von Transactions
 	//private List<String> log;
+	private AtomicInteger changeCounter;
 	private AtomicInteger transactionCounter;
 	
 	private PersistenceManager() { 
 	//privater Konstruktor, um die initalisierung außerhalb der Klasse zu vermeiden
 
 		buffer = new Hashtable<>();
+		changeCounter = new AtomicInteger(0);
 		transactionCounter = new AtomicInteger(0);
 		//log = new ArrayList<>();
 		try {
@@ -48,26 +50,25 @@ public class PersistenceManager
 		return instance;
 	}
 
-	public void addToBuffer(int pageId, String data, Connection c) {
+	public void addToBuffer(int pageId, String data, Connection c, int tr) {
 		
-		String pageData = transactionCounter.get() + ", "  + pageId + "; " + data;
-		buffer.put(transactionCounter.get(), pageData);
+		String pageData = changeCounter.get() + ", "  + pageId + "; " + data + "* " + tr;
+		buffer.put(changeCounter.get(), pageData);
 
-		transactionCounter.getAndIncrement();
+		changeCounter.getAndIncrement();
 		if(buffer.size() >= 5)
 		{
 			persistBuffer();
-			
+			/*
 			try {
-				c.commit();
+				//c.commit();
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
-			}
+			}*/
 			
 			buffer = new Hashtable<>();
 		}
-		
 	}
 	
 	private void persistBuffer()
@@ -99,6 +100,34 @@ public class PersistenceManager
 		catch(Exception e)
 		{
 			System.out.print(e);
+		}
+	}
+
+	public int BeginnTransaction(int pageId) {
+		AtomicInteger tr = transactionCounter;
+		transactionCounter.getAndIncrement();
+		String pageData = changeCounter.get() + ", "  + pageId + "; " + "<BOT>" + "* " + tr;
+		buffer.put(changeCounter.get(), pageData);
+		
+        
+		changeCounter.getAndIncrement();
+		if(buffer.size() >= 5)
+		{
+			persistBuffer();
+			buffer = new Hashtable<>();
+		}
+		return tr.get();
+	}
+
+	public void EndTransaction(int pageId, int tr) {
+		String pageData = changeCounter.get() + ", "  + pageId + "; " + "<EOT>" + "* " + tr;
+		buffer.put(changeCounter.get(), pageData);
+		
+		changeCounter.getAndIncrement();
+		if(buffer.size() >= 5)
+		{
+			persistBuffer();
+			buffer = new Hashtable<>();
 		}
 	}
 

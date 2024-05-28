@@ -1,6 +1,7 @@
 package standard;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
@@ -29,29 +30,46 @@ public class Client {
 			e.printStackTrace();
 		}
 		
-		for(int i = 0; i<5; i++)
+		int randTransactions = rand.nextInt(5) + 1;
+		for(int j = 0; j <= randTransactions; j++)
 		{
+			Integer tr = null;
+			tr = pManager.BeginnTransaction(clientID);
+			int randWrites = rand.nextInt(5) + 1;
 			
-			int randTable = rand.nextInt(2) + 1;
-			int randRow = rand.nextInt(10) + 1;
-			int randValue = rand.nextInt(1000);
-			//int randSleep = rand.nextInt(500) + (1*clientID);
-			int randSleep = 1 + (1000*clientID);
-			String SQL = "UPDATE vsisp68.\"ex4table" + randTable + "\" SET" + " \"counter\" = '" + randValue + "' WHERE \"row\" = " + randRow;
+			for(int i = 0; i <= randWrites; i++)
+			{
+				
+				int randTable = rand.nextInt(2) + 1;
+				int randRow = rand.nextInt(10) + 1;
+				int randValue = rand.nextInt(1000);
+			
+				int randSleep = 1 + (1000*clientID);
+				String SQL = "UPDATE vsisp68.\"ex4table" + randTable + "\" SET" + " \"counter\" = '" + randValue + "' WHERE \"row\" = " + randRow;
+				
+				try {
+					conn.setAutoCommit(false);
+					pManager.addToBuffer(clientID, SQL, conn, tr);
+					Statement stmt = conn.createStatement();
+		            stmt.execute(SQL);
+		            Thread.sleep(randSleep);
+				}
+				catch(Exception e)
+				{
+					System.out.println("war nicht ausführbar!");
+				}
+			}
+			
+			pManager.EndTransaction(clientID, tr);
 			
 			try {
-				conn.setAutoCommit(false);
-				pManager.addToBuffer(clientID, SQL, conn);
-				Statement stmt = conn.createStatement();
-	            stmt.execute(SQL);
-	            Thread.sleep(randSleep);
+				conn.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			catch(Exception e)
-			{
-				System.out.println("war nicht ausführbar!");
-			}
-			
 		}
+		
+		
 		
 	}
 	

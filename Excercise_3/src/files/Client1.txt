@@ -1,0 +1,11 @@
+4, 1; <BOT>* 3
+5, 1; UPDATE vsisp68."ex4table1" SET "counter" = '476' WHERE "row" = 5* 3
+21, 1; UPDATE vsisp68."ex4table1" SET "counter" = '446' WHERE "row" = 5* 3
+22, 1; UPDATE vsisp68."ex4table1" SET "counter" = '304' WHERE "row" = 7* 3
+29, 1; UPDATE vsisp68."ex4table2" SET "counter" = '194' WHERE "row" = 5* 8
+27, 1; UPDATE vsisp68."ex4table1" SET "counter" = '659' WHERE "row" = 6* 8
+26, 1; <BOT>* 8
+25, 1; <EOT>* 3
+31, 1; UPDATE vsisp68."ex4table2" SET "counter" = '7' WHERE "row" = 9* 8
+33, 1; UPDATE vsisp68."ex4table2" SET "counter" = '129' WHERE "row" = 3* 8
+35, 1; <EOT>* 8
