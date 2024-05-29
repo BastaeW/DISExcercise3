@@ -18,7 +18,7 @@ public class Client {
 		setClientID(clientIdentifier);
 		setpManager(persistenceManager);
 		setConn(connection);
-		
+		//Test
 		// start client operations
 		run();
 	}
