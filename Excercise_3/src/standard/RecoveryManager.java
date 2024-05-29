@@ -29,7 +29,7 @@ public class RecoveryManager {
 
     public void recover() {
         readIn();  // Read log files
-        identifyWinnerTransactions();  // Identify transactions that completed successfully
+        //identifyWinnerTransactions();  // Identify transactions that completed successfully
         sortTransactions();  // Sort transactions for correct replay order
         commitTransactions();  // Replay transactions
     }
@@ -37,7 +37,7 @@ public class RecoveryManager {
     
 
     // Identify winner transactions by parsing the log files
-    private void identifyWinnerTransactions() {
+   /* private void identifyWinnerTransactions() {
         for (String line : transactions) {
             if (line.contains("EOT")) {
                 String[] parts = line.split(", ");
@@ -45,7 +45,7 @@ public class RecoveryManager {
                 winnerTransactions.add(transactionId);
             }
         }
-    }
+    }*/
 
     // Commit transactions by redoing the write operations of winner transactions
     private void commitTransactions() {

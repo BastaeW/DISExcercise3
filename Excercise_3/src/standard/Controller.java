@@ -17,16 +17,12 @@ public class Controller {
 
         if(conn != null)
         {
-        	PersistenceManager pManager = PersistenceManager.getInstance();
+        	//PersistenceManager pManager = PersistenceManager.getInstance();
         	RecoveryManager rManager = new RecoveryManager(conn);
         	
         	//Wenn PersistenceManager genutzt werden soll, dann bitte Zeile 20 einkommentieren, Zeile 44 auskommentieren und den folgenden Block einkommentieren (24-43)
-        	
-        	int clientNumber = 5;
         	/*
-        	Client c = new Client(0, pManager, conn);
-        	c.run();
-        	*/
+        	int clientNumber = 5;
         	
         	ExecutorService executor = Executors.newFixedThreadPool(clientNumber);
         	
@@ -45,8 +41,8 @@ public class Controller {
         	}
         	executor.shutdown();
         	
-        
-        	//rManager.recover();
+        	*/
+        	rManager.recover();
         }     
         else
         {
