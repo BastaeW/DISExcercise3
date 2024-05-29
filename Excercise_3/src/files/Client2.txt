@@ -1,3 +1,0 @@
-30, 2; <EOT>§ 2
-3, 2; UPDATE vsisp68."ex4table1" SET "counter" = '86' WHERE "row" = 3§ 2
-26, 2; UPDATE vsisp68."ex4table1" SET "counter" = '110' WHERE "row" = 3§ 2
