@@ -4,12 +4,23 @@ import client.ClientManager;
 import recovery.RecoveryManager;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import org.apache.commons.io.FileUtils;
 
 public class Main {
 
     public static void main(String[] args) {
+    	
+    	try {
+			FileUtils.cleanDirectory(new File("src/pages/"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		} 
+
 
         System.out.println("\n--- Starting Logging & Recovery Program ---\n");
 

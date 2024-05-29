@@ -1,6 +1,9 @@
 module Excercise_3 {
-	exports standard;
+	exports utils;
+	exports client;
+	exports persistence;
+	exports main;
+	exports recovery;
 
-	requires java.sql;
 	requires org.apache.commons.io;
 }

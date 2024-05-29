@@ -1,0 +1,16 @@
+1,1,BOT
+2,2,BOT
+3,2,5,Magica De Spell
+4,1,26,Howard Rockerduck
+5,1,22,José Carioca
+6,2,13,Scrooge McDuck
+7,1,30,Reginella
+8,2,1,Granny Beagle
+9,1,25,Goldie O'Gilt
+10,1,22,Miss Quackfaster
+11,2,5,Huey, Dewey, and Louie
+12,2,EOT
+13,1,31,Kat Nipp
+14,1,31,Horace Horsecollar
+15,1,24,Millie and Melody Mouse
+16,1,EOT
