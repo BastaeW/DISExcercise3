@@ -14,3 +14,19 @@
 14,1,31,Horace Horsecollar
 15,1,24,Millie and Melody Mouse
 16,1,EOT
+1,1,BOT
+2,2,BOT
+3,1,5,Magica De Spell
+4,2,20,Portis
+5,2,29,Weasels
+6,1,13,Scrooge McDuck
+7,2,26,Blackheart Beagle
+8,1,1,Granny Beagle
+9,2,38,Doctor Vulter
+10,1,5,Huey, Dewey, and Louie
+11,2,29,Beagle Brats
+12,1,EOT
+13,2,22,Magica De Spell
+14,2,32,Garvey Gull
+15,2,31,Azure Blue
+16,2,EOT
