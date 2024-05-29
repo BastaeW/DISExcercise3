@@ -50,10 +50,10 @@ public class Client {
 			
 				int randSleep = 1 + (1000*clientID);
 				String SQL = "UPDATE vsisp68.\"ex4table" + randTable + "\" SET" + " \"counter\" = '" + randValue + "' WHERE \"row\" = " + randRow;
-				
-				try {
+				pManager.addToBuffer(clientID, SQL, conn, tr);
+				/*try {
 					conn.setAutoCommit(false);
-					pManager.addToBuffer(clientID, SQL, conn, tr);
+					
 					Statement stmt = conn.createStatement();
 		            stmt.execute(SQL);
 		            Thread.sleep(randSleep);
@@ -61,16 +61,16 @@ public class Client {
 				catch(Exception e)
 				{
 					System.out.println("war nicht ausführbar!");
-				}
+				}*/
 			}
 			
 			pManager.EndTransaction(clientID, tr);
-			
+			/*
 			try {
 				conn.commit();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 		
 		

@@ -1,16 +1,3 @@
-1, 2; UPDATE vsisp68."ex4table2" SET "counter" = '431' WHERE "row" = 9* 1
-0, 2; <BOT>* 1
-10, 2; UPDATE vsisp68."ex4table1" SET "counter" = '914' WHERE "row" = 1* 1
-30, 2; UPDATE vsisp68."ex4table2" SET "counter" = '716' WHERE "row" = 10* 1
-37, 2; UPDATE vsisp68."ex4table1" SET "counter" = '208' WHERE "row" = 10* 1
-43, 2; UPDATE vsisp68."ex4table1" SET "counter" = '607' WHERE "row" = 8* 9
-42, 2; <BOT>* 9
-41, 2; <EOT>* 1
-46, 2; UPDATE vsisp68."ex4table2" SET "counter" = '968' WHERE "row" = 9* 9
-55, 2; UPDATE vsisp68."ex4table2" SET "counter" = '527' WHERE "row" = 8* 9
-61, 2; UPDATE vsisp68."ex4table2" SET "counter" = '88' WHERE "row" = 5* 9
-68, 2; UPDATE vsisp68."ex4table1" SET "counter" = '947' WHERE "row" = 8* 13
-67, 2; <BOT>* 13
-66, 2; <EOT>* 9
-73, 2; UPDATE vsisp68."ex4table1" SET "counter" = '569' WHERE "row" = 8* 13
-77, 2; UPDATE vsisp68."ex4table2" SET "counter" = '279' WHERE "row" = 9* 13
+30, 2; <EOT>§ 2
+3, 2; UPDATE vsisp68."ex4table1" SET "counter" = '86' WHERE "row" = 3§ 2
+26, 2; UPDATE vsisp68."ex4table1" SET "counter" = '110' WHERE "row" = 3§ 2

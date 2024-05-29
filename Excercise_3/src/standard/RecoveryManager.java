@@ -29,7 +29,7 @@ public class RecoveryManager {
 
     public void recover() {
         readIn();  // Read log files
-        //identifyWinnerTransactions();  // Identify transactions that completed successfully
+        identifyWinnerTransactions();  // Identify transactions that completed successfully
         sortTransactions();  // Sort transactions for correct replay order
         commitTransactions();  // Replay transactions
     }
@@ -37,15 +37,15 @@ public class RecoveryManager {
     
 
     // Identify winner transactions by parsing the log files
-   /* private void identifyWinnerTransactions() {
+   private void identifyWinnerTransactions() {
         for (String line : transactions) {
             if (line.contains("EOT")) {
-                String[] parts = line.split(", ");
+                String[] parts = line.split("§ ");
                 int transactionId = Integer.parseInt(parts[1]);
                 winnerTransactions.add(transactionId);
             }
         }
-    }*/
+    }
 
     // Commit transactions by redoing the write operations of winner transactions
     private void commitTransactions() {
@@ -83,19 +83,22 @@ public class RecoveryManager {
     }
 
     // Sort transactions to ensure they are executed in the correct order
-    private void sortTransactions() {
-        String SQL = "";
-        for (int i = 0; i < transactions.size(); i++) {
-            for (String line : transactions) {
-                if (line.substring(0, line.indexOf(",")).equals(String.valueOf(i))) {
-                    SQL = i + "; " + line.substring(line.indexOf(";") + 2);
-                    break;
-                }
-            }
-            sortedTransactions.add(SQL);
-        }
-
-        for (String line : sortedTransactions) {
+    private void sortTransactions()
+    {
+    	String SQL = "";
+    	for(Integer i:winnerTransactions)
+    	{
+    		for(String line: transactions)
+    		{
+    			 if (line.substring(line.indexOf("§") + 2, line.length()).equals(String.valueOf(i)) && !line.contains("<"))
+    			{
+    				 SQL = i + "; " + line.substring(line.indexOf(";") + 2);
+                     break;
+    			}
+    		}
+    		sortedTransactions.add(SQL);
+    	}
+    	for (String line : sortedTransactions) {
             System.out.println(line);
         }
     }
@@ -116,9 +119,9 @@ public class RecoveryManager {
                 System.out.print(e);
             }
         }
-
+/*
         for (String line : transactions) {
             System.out.println(line);
-        }
+        }*/
     }
 }
