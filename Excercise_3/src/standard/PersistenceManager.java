@@ -64,10 +64,13 @@ public class PersistenceManager
 				e.printStackTrace();
 			}*/
 			
+			
 			buffer = new Hashtable<>();
 		}
 	}
-	
+	/*jededs mal in log schreiben (lsn und page number müssen in pgae --> nur comittete sachen auf festplatte) Auf pages nach aktuellen daten schauen, wenn nein, dann trans wiederholen und reinchreiben 
+	1 lof ile immer direkt in lofile
+	buffer wiederherstelle, wenn mehr als 5 sachen*/
 	// persists the buffer to log files
 	private void persistBuffer()
 	{
