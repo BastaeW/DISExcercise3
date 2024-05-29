@@ -28,11 +28,13 @@ public class RecoveryManager {
     }
 
     public void recover() {
-        readIn();
-        identifyWinnerTransactions(); // Identify winner transactions from logs
-        sortTransactions();
-        commitTransactions();
+        readIn();  // Read log files
+        identifyWinnerTransactions();  // Identify transactions that completed successfully
+        sortTransactions();  // Sort transactions for correct replay order
+        commitTransactions();  // Replay transactions
     }
+
+    
 
     // Identify winner transactions by parsing the log files
     private void identifyWinnerTransactions() {
@@ -55,15 +57,18 @@ public class RecoveryManager {
 
         for (String line : sortedTransactions) {
             try {
+            	 if (!line.contains("<")) {  // Ignore lines that start with "<"
                 String[] parts = line.split(", ");
                 int transactionId = Integer.parseInt(parts[1]);
 
                 // Only redo operations for winner transactions
                 if (winnerTransactions.contains(transactionId)) {
-                    String SQL = line.substring(line.indexOf(";") + 2);
+                    String SQL = line.substring(line.indexOf(";") + 2, line.indexOf("*") - 1);
                     Statement stmt = connection.createStatement();
+         
                     stmt.execute(SQL);
                 }
+            	 }
             } catch (Exception e) {
                 System.out.println(e);
             }

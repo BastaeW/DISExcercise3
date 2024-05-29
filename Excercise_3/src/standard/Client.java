@@ -8,6 +8,7 @@ import java.util.Random;
 
 public class Client {
 	
+	// Unique identifier for the client
 	private int clientID;
 	private PersistenceManager pManager;
 	private Connection conn;
@@ -18,9 +19,10 @@ public class Client {
 		setpManager(persistenceManager);
 		setConn(connection);
 		
+		// start client operations
 		run();
 	}
-	
+	// simulate client operations
 	public void run()
 	{
 		Random rand = new Random();
@@ -30,6 +32,7 @@ public class Client {
 			e.printStackTrace();
 		}
 		
+		// perform a random number of transactions
 		int randTransactions = rand.nextInt(5) + 1;
 		for(int j = 0; j <= randTransactions; j++)
 		{
@@ -37,6 +40,7 @@ public class Client {
 			tr = pManager.BeginnTransaction(clientID);
 			int randWrites = rand.nextInt(5) + 1;
 			
+			// perform a random number of write operations
 			for(int i = 0; i <= randWrites; i++)
 			{
 				
@@ -73,6 +77,7 @@ public class Client {
 		
 	}
 	
+	// getters and setters for clientID, pManager and conn
 	public int getClientID() {
 		return clientID;
 	}

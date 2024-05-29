@@ -18,8 +18,6 @@ public class PersistenceManager
 	private static PersistenceManager instance = null;
 	//Puffer für zwischengespeicherte Daten
 	private Hashtable<Integer, String> buffer;
-	//Liste für das Logging von Transactions
-	//private List<String> log;
 	private AtomicInteger changeCounter;
 	private AtomicInteger transactionCounter;
 	
@@ -29,7 +27,6 @@ public class PersistenceManager
 		buffer = new Hashtable<>();
 		changeCounter = new AtomicInteger(0);
 		transactionCounter = new AtomicInteger(0);
-		//log = new ArrayList<>();
 		try {
 			FileUtils.cleanDirectory(new File("src/files/"));
 		} catch (IOException e) {
@@ -49,7 +46,7 @@ public class PersistenceManager
 		//Gibt null oder den PersistenceManager (Instanz) zurück
 		return instance;
 	}
-
+	// Add data to the buffer and persist if buffer is full
 	public void addToBuffer(int pageId, String data, Connection c, int tr) {
 		
 		String pageData = changeCounter.get() + ", "  + pageId + "; " + data + "* " + tr;
@@ -71,6 +68,7 @@ public class PersistenceManager
 		}
 	}
 	
+	// persists the buffer to log files
 	private void persistBuffer()
 	{
 		try {
@@ -103,6 +101,7 @@ public class PersistenceManager
 		}
 	}
 
+	// Begin transaction and add it to the buffer
 	public int BeginnTransaction(int pageId) {
 		AtomicInteger tr = transactionCounter;
 		transactionCounter.getAndIncrement();
@@ -118,7 +117,7 @@ public class PersistenceManager
 		}
 		return tr.get();
 	}
-
+// End a transaction and add it to the buffer
 	public void EndTransaction(int pageId, int tr) {
 		String pageData = changeCounter.get() + ", "  + pageId + "; " + "<EOT>" + "* " + tr;
 		buffer.put(changeCounter.get(), pageData);
