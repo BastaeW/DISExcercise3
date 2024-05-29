@@ -130,6 +130,7 @@ public class PersistenceManager
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line;
 			
+<<<<<<< HEAD
             while ((line = reader.readLine()) != null)
             {
             	if(line.substring(line.indexOf("§") + 2, line.length()).equals(String.valueOf(tr)) && !line.contains("<"))
@@ -147,12 +148,22 @@ public class PersistenceManager
 		
 		if(buffer.size() >= 5)
 		{
+=======
+			
+>>>>>>> refs/remotes/origin/main
 			buffer = new Hashtable<>();
 		}
 	}
+<<<<<<< HEAD
 	
 
 	/*
+=======
+	/*jededs mal in log schreiben (lsn und page number müssen in pgae --> nur comittete sachen auf festplatte) Auf pages nach aktuellen daten schauen, wenn nein, dann trans wiederholen und reinchreiben 
+	1 lof ile immer direkt in lofile
+	buffer wiederherstelle, wenn mehr als 5 sachen*/
+	// persists the buffer to log files
+>>>>>>> refs/remotes/origin/main
 	private void persistBuffer()
 	{
 		try {
