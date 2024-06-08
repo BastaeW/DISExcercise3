@@ -14,14 +14,6 @@ public class Main {
 
     public static void main(String[] args) {
     	
-    	try {
-			FileUtils.cleanDirectory(new File("src/pages/"));
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		} 
-
-
         System.out.println("\n--- Starting Logging & Recovery Program ---\n");
 
         if (getConsoleInput("[1]    Start the recovery?"))
@@ -31,7 +23,7 @@ public class Main {
 
         if (getConsoleInput("[2]    Start the clients?"))
             ClientManager.getInstance().startClients();
-
+        	
         System.out.println("");
     }
 

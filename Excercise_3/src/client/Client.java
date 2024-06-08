@@ -60,6 +60,5 @@ public class Client extends Thread {
             System.out.println("[Debug - Client " + _clientID + "]    Attempting Commit");
         _pm.commit(taid);
     }
-
 }
 

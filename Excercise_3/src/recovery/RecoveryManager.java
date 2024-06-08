@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class RecoveryManager {
 
     static final private RecoveryManager _manager;
-
+    private ArrayList<Integer> pageLSN;
     // TODO Add class variables if necessary
     PersistenceManager pm;
 
@@ -27,6 +27,7 @@ public class RecoveryManager {
 
     private RecoveryManager() {
         // TODO Initialize class variables if necessary
+    	pageLSN = new ArrayList<Integer>();
         pm = PersistenceManager.getInstance();
     }
 
@@ -36,7 +37,6 @@ public class RecoveryManager {
 
     public void startRecovery() {
         ArrayList<String> win = findWinners();
-
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("src/files/Datalog.txt"));
@@ -62,12 +62,12 @@ public class RecoveryManager {
     }
 
     private void tryRecovery(String lsn, String transID, String page, String info) {
-        File f = new File(page+".txt");
+        File f = new File("src/pages/" + page + ".txt");
         if(f.exists() && !f.isDirectory()) {
 
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("/src/pages/" + page + ".txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("src/pages/" + page + ".txt"));
             String line = reader.readLine();
 
             while (line != null && !line.equals("")) {
@@ -79,10 +79,6 @@ public class RecoveryManager {
                     pm.writeToPersistentStorage(Integer.valueOf(page), newData);
                 }
                 break;
-
-                //System.out.println(splitted[2]);
-                // read next line
-                //line = reader.readLine();
             }
 
 
@@ -108,7 +104,7 @@ public class RecoveryManager {
 
             while (line != null && !line.equals("")) {
                 String[] splitted = line.split(",");
-                System.out.println(splitted[0].strip());
+                //System.out.println(splitted[0].strip());
                 if (splitted[2].strip().equals("EOT")) {
                     winners.add(splitted[1]);
                 }
@@ -117,9 +113,10 @@ public class RecoveryManager {
                 // read next line
                 line = reader.readLine();
             }
+            /*
             for (String winner : winners) {
                 System.out.println(winner);
-            }
+            }*/
 
             reader.close();
         } catch (Exception e) {
