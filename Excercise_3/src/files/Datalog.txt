@@ -14,3 +14,19 @@
 14,1,EOT
 15,2,33,Panchito Pistoles
 16,2,EOT
+17,3,BOT
+18,4,BOT
+19,4,5,Magica De Spell
+20,3,36,Weasels
+21,3,23,Scrooge McDuck
+22,4,13,Scrooge McDuck
+23,3,39,Fantomallard
+24,3,23,Penny Beagle
+25,3,24,Howard Rockerduck
+26,4,1,Granny Beagle
+27,3,37,Marshal Mouse and Matilda Mouse
+28,3,25,Velma Vanderduck
+29,4,5,Huey, Dewey, and Louie
+30,3,24,Granny Beagle
+31,3,EOT
+32,4,EOT
