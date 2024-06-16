@@ -11,6 +11,7 @@ public class Controller {
 	private static ModelBuilder modelBuilder;
 	private static ModelAnalyzer modelAnalyzer;	
 	
+	
 	public static void main(String[] args) {
 		connector = new Connector();
 		connection = connector.connect();
@@ -30,7 +31,7 @@ public class Controller {
 			modelBuilder = new ModelBuilder();
 			modelBuilder.setConnection(connection);
 			
-			modelAnalyzer = new ModelAnalyzer();
+			modelAnalyzer = new ModelAnalyzer(connection);
 			modelAnalyzer.analyze();
 		}
     }
