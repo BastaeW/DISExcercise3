@@ -9,10 +9,7 @@ public class Controller {
 	private static Connection connection;
 	private static DataLoader dataLoader;
 	private static ModelBuilder modelBuilder;
-	private static ModelAnalyzer modelAnalyzer;
-	
-	private static ArrayList<String> goodLines;
-	
+	private static ModelAnalyzer modelAnalyzer;	
 	
 	public static void main(String[] args) {
 		connector = new Connector();
@@ -26,8 +23,9 @@ public class Controller {
 		else
 		{
 			System.out.println("Successfull Connection");
+			
 			dataLoader = new DataLoader();
-			goodLines = dataLoader.loadData();
+			dataLoader.setConnection(connection);
 			
 			modelBuilder = new ModelBuilder();
 			modelBuilder.setConnection(connection);
