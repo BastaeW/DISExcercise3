@@ -27,6 +27,7 @@ public class Controller {
 			
 			dataLoader = new DataLoader();
 			dataLoader.setConnection(connection);
+			dataLoader.loadData();
 			
 			modelBuilder = new ModelBuilder();
 			modelBuilder.setConnection(connection);
