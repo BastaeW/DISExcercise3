@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 public class DataLoader 
 {
@@ -39,12 +41,20 @@ public class DataLoader
 		
 		try
 		{
-			BufferedReader br = new BufferedReader(new FileReader(fileInput));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("src/data/sales.csv"), "windows-1252"));
 			
 			 while ((line = br.readLine()) != null) 
 			 {
 				 if(checkDataTypes(line) == true)
 				 {
+					 try
+					 {
+						 line = replaceUmlaut(line);
+					 }
+					 catch(Exception e)
+					 {
+						 System.out.print(e);
+					 }
 					 goodLines.add(line);
 				 }
 				 else
@@ -93,6 +103,26 @@ public class DataLoader
 		writeCSV();
 	}
 	
+	private String replaceUmlaut(String input) {
+		 
+	     // replace all lower Umlauts
+	     String output = input.replace("ü", "ue")
+	                          .replace("ö", "oe")
+	                          .replace("ä", "ae")
+	                          .replace("ß", "ss");
+	 
+	     // first replace all capital Umlauts in a non-capitalized context (e.g. Übung)
+	     output = output.replaceAll("Ü(?=[a-zäöüß ])", "Ue")
+	                    .replaceAll("Ö(?=[a-zäöüß ])", "Oe")
+	                    .replaceAll("Ä(?=[a-zäöüß ])", "Ae");
+	 
+	     // now replace all the other capital Umlauts
+	     output = output.replace("Ü", "UE")
+	                    .replace("Ö", "OE")
+	                    .replace("Ä", "AE");
+	 
+	     return output;
+	}
 
 	private boolean checkDataTypes(String line) 
 	{

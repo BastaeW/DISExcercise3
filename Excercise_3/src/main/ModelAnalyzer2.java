@@ -10,7 +10,7 @@ public class ModelAnalyzer2 {
     private Connection connection;
 
     // Konstruktor
-    public ModelAnalyzer(Connection c) {
+    public ModelAnalyzer2(Connection c) {
         this.connection = c;
     }
 

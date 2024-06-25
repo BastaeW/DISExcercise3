@@ -3,6 +3,7 @@ package main;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class ModelAnalyzer {
@@ -16,9 +17,14 @@ public class ModelAnalyzer {
 	 */
 	
 
-	public void analyze() {
-		
-	}
+	public void analyze(String geo, String time, String product) {
+        try {
+            analysis(geo, time, product);
+        } catch (SQLException e) {
+            System.out.println("Error occured during analysis");
+            e.printStackTrace(); // Stacktrace für detaillierte Fehlermeldung
+        }
+    }
 	
 	//Name der materialisierten View für die Auswertung: "SalesOrderViewM"
 	
@@ -53,10 +59,62 @@ public class ModelAnalyzer {
      * @return SQL-Abfrage als String
      */
 	private String generateSQLQuery(String geo, String time, String product) { //Parameter definieren, nach welchen Dimensionen die Daten aggregiert werden sollen
-		return "SELECT " + geo + ", " + time + ", " + product + ", SUM(turnover) AS total_turnover " + //Select Klausel wählt Dimensionen und berechnet die Summe der Umsätze (total_turnover)
-				"FROM sales_data " +
-				"GROUP BY " + geo + ", " + time + ", " + product + " " + // Gruppieren der Daten nach den angegebenen Dimensionen, sodass SUM(zutnover) für jede Gruppe berechnet wird
-				"WITH ROLLUP"; //Ermöglicht zusammengefasste Daten auf verschd. Aggregationsstufen zu berechnen. Zwischen und Gesamtsummen können berechnet werden
+		String geoharm = geo;
+		String timeharm = time;
+		String prodharm = product;
+		
+		if(geoharm == "")
+		{
+			geoharm = geo;
+		}
+		else
+		{
+			geoharm = "\"" + geo + "\",";
+		}
+		if(prodharm == "")
+		{
+			prodharm = product;
+		}
+		else
+		{
+			prodharm = "\"" + product + "\",";
+		}
+		
+		if(timeharm == "")
+		{
+			timeharm = time;
+		}
+		else
+		{
+			if(timeharm.equals("Date")||timeharm.equals("date"))
+			{
+				timeharm = "\"" + time + "\",";
+			}
+			else
+			{
+				timeharm = "date_part('" + time + "', \"Date\"),";
+			}
+		}
+		
+		String selectfield = geoharm + timeharm + prodharm;
+		String groupfield = geoharm + timeharm + prodharm;
+		
+		if(groupfield.endsWith(","))
+		{
+			groupfield = groupfield.substring(0, groupfield.length()-1);
+		}
+		
+		String prepSQL =  "SELECT" + selectfield + " SUM(\"Sold\"), SUM(\"Revenue\")" + //Select Klausel wählt Dimensionen und berechnet die Summe der Umsätze (total_turnover)
+				"FROM vsisp68.\"salesorderViewM\" " ;
+		if(!groupfield.isEmpty())
+		{
+			prepSQL = prepSQL + "GROUP BY CUBE(" + groupfield + ");";//Ermöglicht zusammengefasste Daten auf verschd. Aggregationsstufen zu berechnen. Zwischen und Gesamtsummen können berechnet werden	
+		}
+		else
+		{
+			prepSQL = prepSQL + ";";
+		}
+		return prepSQL;
 	}
 	
 	/**
@@ -68,15 +126,33 @@ public class ModelAnalyzer {
      */
 	
 	private void printResults(ResultSet rs) throws SQLException {
-		while (rs.next()) { //Läuft solange es noch Zeilen im ResultSet "rs" gibt --> wenn keine Zeilen mehr dann false als return
+		//while (rs.next()) { //Läuft solange es noch Zeilen im ResultSet "rs" gibt --> wenn keine Zeilen mehr dann false als return
 			//Abrufen der Werte aus dem resultSet
-			 String geoValue = rs.getString(1); // ruft den Wert der 1 Spalte ab (geo)
+			 /*String geoValue = rs.getString(1); // ruft den Wert der 1 Spalte ab (geo)
 	         String timeValue = rs.getString(2); // ruft den Wert der 2 Spalte ab (time)
 	         String productValue = rs.getString(3); // ruft den Wert der 3 Spalte ab (product)
 	         double totalTurnover = rs.getDouble(4); // ruft den Wert der 4 Spalte ab (total_turnover)
+	         double totalRevenue = rs.getDouble(5);
 	         
-	         System.out.printf("%s | %s | %s | %.2f%n", geoValue, timeValue, productValue, totalTurnover); // Ausgabe der Werte in formatierten String (%s = String und %.2f = Fließkommazahl)
-		}
+	         System.out.printf("%s | %s | %s | %.2f| %.2f%n", geoValue, timeValue, productValue, totalTurnover, totalRevenue); // Ausgabe der Werte in formatierten String (%s = String und %.2f = Fließkommazahl)
+		*/
+
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			
+			while (rs.next()) {
+				for (int i = 1; i <= columnCount; i++) {
+					if (i > 1) {
+						System.out.print("\t");
+					}
+					
+					System.out.print(rs.getString(i));
+				}
+				System.out.println();
+		
+		
+		//}
 	}
 	
+}
 }
